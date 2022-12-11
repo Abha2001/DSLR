@@ -1,0 +1,26 @@
+{% extends 'RoleAccess/base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <h1>Your Profile</h1>
+    <div class="alert alert-success" role="alert">
+        <h3>Welcome {{ user.username }}!</h3>
+        <p>Name: {{ user.first_name }} {{ user.lastname }}</p>
+        <p>Email: {{ user.email }}</p>
+        <a href="{% url 'logout' %}">Logout?</a>
+    </div>
+    {% if user.is_superuser or user.is_Admin %}
+    <a type="button" class="btn btn-primary" href="{% url 'users' %}">View All Users</a>
+    <a type="button" class="btn btn-primary" href="{% url 'register' %}?admin=true">Create Admin User</a>
+    <a type="button" class="btn btn-primary" href="{% url 'register' %}?admin=false">Create Non-Admin User</a>
+    {% endif %}
+{% else %}
+    <div class="alert alert-success" role="alert">
+        <h3>Welcome!</h3>
+        <a href="{% url 'register' %}">Signup</a>
+        <a href="{% url 'login' %}">Login</a>
+    </div>
+{% endif %}
+
+{% endblock %}
